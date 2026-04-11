@@ -1,0 +1,155 @@
+.pricing-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 15, 20, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.pricing-modal {
+  background: #1B1B1B;
+  border-radius: 12px;
+  padding: 40px;
+  position: relative;
+  max-width: 1000px;
+  width: 100%;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.pricing-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  color: #9CA3AF;
+  font-size: 28px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.pricing-close:hover {
+  color: #fff;
+}
+
+.pricing-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #9CA3AF;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.pricing-card {
+  background: #272727;
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.pricing-card.popular {
+  border: 2px solid #3B82F6;
+  background: #222222;
+  transform: translateY(-8px);
+}
+
+.popular-badge {
+  position: absolute;
+  top: 24px;
+  left: 32px;
+  background: rgba(59, 130, 246, 0.2);
+  color: #60A5FA;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.pricing-card.popular .tier-name {
+  margin-top: 36px;
+}
+
+.tier-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 24px;
+}
+
+.tier-price {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 32px;
+}
+
+.price-val {
+  font-size: 32px;
+  font-weight: 700;
+  color: #E5E7EB;
+}
+
+.price-val.blue-text {
+  color: #60A5FA;
+}
+
+.price-val.green-text {
+  color: #34D399;
+}
+
+.price-period {
+  font-size: 16px;
+  color: #9CA3AF;
+}
+
+.tier-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tier-features li {
+  font-size: 15px;
+  color: #D1D5DB;
+  line-height: 1.4;
+}
+
+@media (max-width: 900px) {
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .pricing-card.popular {
+    transform: none;
+  }
+  
+  .pricing-modal {
+    padding: 32px 20px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
