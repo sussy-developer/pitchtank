@@ -1,16 +1,58 @@
-# React + Vite
+# 🚀 PitchTank - AI-Powered Startup Fundraising Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+PitchTank is a premium, high-fidelity platform designed to bridge the gap between ambitious founders and sophisticated investors. Built with speed, security, and aesthetics in mind.
 
-Currently, two official plugins are available:
+![PitchTank Dashboard](screenshot_dashboard.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Key Features
 
-## React Compiler
+- **🚀 Performance-Optimized**: Implements full route-based lazy loading and code splitting for lightning-fast initial loads.
+- **🛡️ Secure Onboarding**: Role-based onboarding flows (Founder vs. Investor) with real-time Firestore persistence and data integrity.
+- **📄 Smart Pitch Protection**: Automatic PDF watermarking for pitch decks to protect founder intellectual property.
+- **🎨 Premium UI/UX**: State-of-the-art design system featuring glassmorphism, fluid animations, and a modern dark-mode aesthetic.
+- **🧩 Modular Architecture**: Clean, decoupled component structure (Settings Tabs, Onboarding Steps, Shared Icon Library) for maximum developer productivity.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tech Stack
 
-## Expanding the ESLint configuration
+- **Frontend**: React (Vite)
+- **Styling**: Vanilla CSS (Custom Variable System)
+- **Backend/Auth**: Firebase (Firestore, Auth, Storage)
+- **PDF Engine**: pdf-lib (Serverless Client-Side Watermarking)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📦 Project Structure
+
+```text
+src/
+├── components/         # Modular UI components
+│   ├── onboarding/     # Extracted questionnaire logic
+│   ├── settings/       # Decoupled settings tabs
+│   └── Icons.jsx       # Consolidated SVG library
+├── hooks/              # Custom React hooks (AuthContext)
+├── pages/              # Lazy-loaded route containers
+├── routes/             # App routing and layout managers
+└── styles/             # Global and component-specific styling
+```
+
+## 🚀 Getting Started
+
+1. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
+
+2. **Configure Firebase**:
+   Ensure your Firebase credentials are set up in `src/firebase.js`.
+
+3. **Start Development**:
+   ```bash
+   npm run dev
+   ```
+
+4. **Build for Production**:
+   ```bash
+   npm run build
+   ```
+
+---
+
+*Built with ❤️ by sussy-developer*
