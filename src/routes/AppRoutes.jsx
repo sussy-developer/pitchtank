@@ -36,8 +36,8 @@ export default function AppRoutes() {
         <Route path="/" element={<Landing />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/onboarding" element={<Onboarding />} />
-        <Route path="/dashboard" element={<ProtectedRoute><DashboardManager /></ProtectedRoute>} />
-        <Route path="/investor" element={<ProtectedRoute><InvestorDashboard /></ProtectedRoute>} />
+        <Route path="/dashboard/*" element={<ProtectedRoute><DashboardManager /></ProtectedRoute>} />
+        <Route path="/investor/*" element={<ProtectedRoute><InvestorDashboard /></ProtectedRoute>} />
         <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
         <Route path="/startup/:id" element={<ProtectedRoute><StartupDetail /></ProtectedRoute>} />
       </Routes>

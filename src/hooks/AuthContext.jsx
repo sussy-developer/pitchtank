@@ -47,20 +47,24 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     let unsubscribeSnapshot = null;
+    let safetyTimeout = null;
 
     const unsubscribeAuth = onAuthStateChanged(auth, (firebaseUser) => {
-      // Re-enable loading buffer exactly when transitioning from logged-out to logged-in
-      if (firebaseUser && currentUserUid.current !== firebaseUser.uid) {
-        setLoading(true);
-      }
-      
       currentUserUid.current = firebaseUser?.uid || null;
       setUser(firebaseUser);
       
+      // Clear any previous safety timeout
+      if (safetyTimeout) clearTimeout(safetyTimeout);
+
       if (firebaseUser) {
-        // Fetch or listen to user document
+        // Safety: if Firestore doesn't respond in 3s, stop waiting
+        safetyTimeout = setTimeout(() => {
+          setLoading(false);
+        }, 3000);
+
         const userRef = doc(db, 'users', firebaseUser.uid);
         unsubscribeSnapshot = onSnapshot(userRef, (docSnap) => {
+          clearTimeout(safetyTimeout);
           if (docSnap.exists()) {
             setUserData(docSnap.data());
           } else {
@@ -68,7 +72,8 @@ export function AuthProvider({ children }) {
           }
           setLoading(false);
         }, (error) => {
-          console.error("Error fetching user data:", error);
+          clearTimeout(safetyTimeout);
+          console.warn("Firestore unavailable:", error.message);
           setLoading(false);
         });
       } else {
@@ -82,6 +87,7 @@ export function AuthProvider({ children }) {
 
     return () => {
       unsubscribeAuth();
+      if (safetyTimeout) clearTimeout(safetyTimeout);
       if (unsubscribeSnapshot) {
         unsubscribeSnapshot();
       }

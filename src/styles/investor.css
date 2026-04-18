@@ -5,8 +5,8 @@
   display: flex;
   min-height: 100vh;
   width: 100%;
-  background: #0B0F14;
-  color: #fff;
+  background: #f9fafb;
+  color: #111827;
   font-family: 'Inter', system-ui, sans-serif;
 }
 
@@ -23,8 +23,8 @@
    ============================================= */
 .investor-sidebar {
   width: 280px;
-  background: #111827;
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -56,7 +56,7 @@
   gap: 12px;
   padding: 12px 16px;
   border-radius: 12px;
-  color: #9CA3AF;
+  color: #4b5563;
   font-size: 14px;
   font-weight: 500;
   background-color: transparent;
@@ -68,27 +68,33 @@
 }
 
 .inv-nav-item:hover {
-  background: rgba(255, 255, 255, 0.03);
-  color: #D1D5DB;
+  background: rgba(0, 0, 0, 0.03);
+  color: #374151;
 }
 
 .inv-nav-item.active {
-  background: rgba(16, 185, 129, 0.1);
-  color: #10B981;
+  background: rgba(59, 130, 246, 0.1);
+  color: #3B82F6;
+  font-weight: 600;
 }
 
-.nav-badge-alt {
-  margin-left: auto;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+.inv-nav-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: #f3f4f6;
+  color: #111827;
+  border-radius: 50%;
   font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 10px;
+  font-weight: 600;
+  margin-left: auto;
 }
 
 .inv-sidebar-footer {
   padding: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .inv-profile {
@@ -102,7 +108,7 @@
   height: 40px;
   border-radius: 50%;
   background: #374151;
-  color: #fff;
+  color: #111827;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -166,15 +172,15 @@
 }
 
 .filter-select {
-  background: #111827;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #fff;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: #111827;
   padding: 10px 16px;
   border-radius: 12px;
   font-size: 14px;
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111827' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 12px center;
   background-size: 16px;
@@ -192,8 +198,8 @@
 }
 
 .inv-metric-card {
-  background: #111827;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   padding: 24px;
   transition: transform 0.2s;
@@ -201,7 +207,7 @@
 
 .inv-metric-label {
   font-size: 13px;
-  color: #9CA3AF;
+  color: #4b5563;
   margin-bottom: 12px;
   display: block;
 }
@@ -209,7 +215,7 @@
 .inv-metric-value {
   font-size: 32px;
   font-weight: 700;
-  color: #fff;
+  color: #111827;
 }
 
 .inv-metric-value.highlight {
@@ -218,8 +224,8 @@
 
 /* Dashboard Home Specifics */
 .inv-card {
-  background: #111827;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   padding: 24px;
 }
@@ -252,9 +258,9 @@
 .sort-pill {
   padding: 8px 16px;
   border-radius: 50px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #9CA3AF;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: #4b5563;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -262,14 +268,14 @@
 }
 
 .sort-pill:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
+  background: rgba(0, 0, 0, 0.08);
+  color: #111827;
 }
 
 .sort-pill.active {
   background: #111827;
   border-color: #3B82F6;
-  color: #fff;
+  color: #111827;
   box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
 }
 
@@ -283,8 +289,8 @@
 }
 
 .inv-startup-card {
-  background: #111827;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 24px;
   padding: 28px;
   display: flex;
@@ -309,11 +315,11 @@
 
 .cat-tag {
   padding: 4px 12px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 50px;
   font-size: 11px;
   font-weight: 700;
-  color: #D1D5DB;
+  color: #374151;
 }
 
 .score-badge-alt {
@@ -340,12 +346,12 @@
 .s-name {
   font-size: 20px;
   font-weight: 700;
-  color: #fff;
+  color: #ffffff;
 }
 
 .hot-badge {
   background: linear-gradient(135deg, #F59E0B, #EF4444);
-  color: #fff;
+  color: #ffffff;
   font-size: 9px;
   font-weight: 800;
   padding: 2px 6px;
@@ -360,7 +366,7 @@
 
 .s-desc {
   font-size: 14px;
-  color: #9CA3AF;
+  color: #4b5563;
   line-height: 1.5;
   margin-bottom: 24px;
   height: 63px; /* Fixed height for 3 lines roughly */
@@ -377,7 +383,7 @@
   align-items: flex-end;
   margin-bottom: 24px;
   padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .s-ask-block {
@@ -388,7 +394,7 @@
 .s-ask-val {
   font-size: 18px;
   font-weight: 700;
-  color: #fff;
+  color: #111827;
 }
 
 .s-ask-label {
@@ -401,8 +407,8 @@
   padding: 14px;
   border-radius: 12px;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #111827;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
@@ -419,7 +425,7 @@
   position: absolute;
   top: 28px;
   right: -40px; /* Hide by default */
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.05);
   border: none;
   width: 32px;
   height: 32px;
@@ -427,7 +433,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #9CA3AF;
+  color: #4b5563;
   cursor: pointer;
   transition: all 0.3s;
 }
@@ -458,7 +464,7 @@
     width: 100%;
     height: auto;
     border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     position: static;
   }
   .inv-nav {

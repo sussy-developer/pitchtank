@@ -1,6 +1,6 @@
 import React from 'react';
+import { Navigate } from 'react-router-dom';
 import Dashboard from '../pages/Dashboard';
-import InvestorDashboard from '../pages/InvestorDashboard';
 import { useAuth } from '../hooks/AuthContext';
 
 export default function DashboardManager() {
@@ -10,7 +10,7 @@ export default function DashboardManager() {
   const role = userData?.role || 'investor';
 
   if (role === 'investor') {
-    return <InvestorDashboard />;
+    return <Navigate to="/investor" replace />;
   }
 
   return <Dashboard />;

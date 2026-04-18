@@ -55,22 +55,35 @@ const Icons = {
   )
 };
 
-export default function DashboardSidebar({ activeTab, setActiveTab }) {
+export default function DashboardSidebar() {
   const navigate = useNavigate();
   const { user, userData, logout } = useAuth();
   
+  // Use React Router to determine active state
+  const pathname = window.location.pathname;
+  const getActiveTab = () => {
+    // Founder
+    if (pathname.includes('/dashboard/submit')) return 'submit';
+    if (pathname.includes('/dashboard/projects')) return 'projects';
+    if (pathname.includes('/dashboard/messages')) return 'messages';
+    if (pathname.includes('/dashboard/funding')) return 'funding';
+    if (pathname.includes('/dashboard/feedback')) return 'feedback';
+    // Investor
+    if (pathname.includes('/investor/marketplace')) return 'marketplace';
+    if (pathname.includes('/investor/investments')) return 'investments';
+    if (pathname.includes('/investor/messages')) return 'inv-messages';
+    if (pathname.includes('/investor/watchlist')) return 'watchlist';
+    if (pathname.includes('/investor/analytics')) return 'analytics';
+    // General
+    if (pathname.includes('/settings')) return 'settings';
+    return pathname.includes('/investor') ? 'inv-dashboard' : 'dashboard';
+  };
+  const activeTab = getActiveTab();
+
   const displayName = userData?.name || user?.displayName || 'PitchTank User';
   const roleDisplay = userData?.role === 'investor' ? 'Investor' : 'Founder';
+  const role = userData?.role || 'founder';
   const initials = getInitials(displayName);
-
-  const menuItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: <Icons.Dashboard /> },
-    { id: 'submit', label: 'Submit startup', icon: <Icons.Submit /> },
-    { id: 'projects', label: 'My projects', icon: <Icons.Projects />, badge: 2 },
-    { id: 'messages', label: 'Messages', icon: <Icons.Message />, badge: 3 },
-    { id: 'funding', label: 'Funding status', icon: <Icons.Funding /> },
-    { id: 'settings', label: 'Settings', icon: <Icons.Settings /> },
-  ];
 
   const handleLogout = async () => {
     try {
@@ -81,12 +94,37 @@ export default function DashboardSidebar({ activeTab, setActiveTab }) {
     }
   };
 
-  const handleClick = (id) => {
-    if (id === 'settings') {
-      navigate('/settings');
-    } else {
-      setActiveTab(id);
-    }
+  // Additional icons for Investor
+  const InvIcons = {
+    Marketplace: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>,
+    Investments: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>,
+    Watchlist: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>,
+    Analytics: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>,
+  };
+
+  const founderMenuItems = [
+    { id: 'dashboard', label: 'Dashboard', icon: <Icons.Dashboard />, path: '/dashboard' },
+    { id: 'submit', label: 'Submit startup', icon: <Icons.Submit />, path: '/dashboard/submit' },
+    { id: 'projects', label: 'My projects', icon: <Icons.Projects />, badge: 2, path: '/dashboard/projects' },
+    { id: 'messages', label: 'Messages', icon: <Icons.Message />, badge: 3, path: '/dashboard/messages' },
+    { id: 'funding', label: 'Funding status', icon: <Icons.Funding />, path: '/dashboard/funding' },
+    { id: 'settings', label: 'Settings', icon: <Icons.Settings />, path: '/settings' },
+  ];
+
+  const investorMenuItems = [
+    { id: 'inv-dashboard', label: 'Dashboard', icon: <Icons.Dashboard />, path: '/investor' },
+    { id: 'marketplace', label: 'Marketplace', icon: <InvIcons.Marketplace />, path: '/investor/marketplace' },
+    { id: 'investments', label: 'My investments', icon: <InvIcons.Investments />, badge: 5, path: '/investor/investments' },
+    { id: 'inv-messages', label: 'Messages', icon: <Icons.Message />, badge: 2, path: '/investor/messages' },
+    { id: 'watchlist', label: 'Watchlist', icon: <InvIcons.Watchlist />, badge: 8, path: '/investor/watchlist' },
+    { id: 'analytics', label: 'Analytics', icon: <InvIcons.Analytics />, path: '/investor/analytics' },
+    { id: 'settings', label: 'Settings', icon: <Icons.Settings />, path: '/settings' },
+  ];
+
+  const menuItems = role === 'investor' ? investorMenuItems : founderMenuItems;
+
+  const handleClick = (path) => {
+    navigate(path);
   };
 
   return (
@@ -101,7 +139,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab }) {
           <button
             key={item.id}
             className={`nav-item ${activeTab === item.id ? 'active' : ''}`}
-            onClick={() => handleClick(item.id)}
+            onClick={() => handleClick(item.path)}
           >
             <span className="nav-icon">{item.icon}</span>
             <span className="nav-label">{item.label}</span>
@@ -117,7 +155,11 @@ export default function DashboardSidebar({ activeTab, setActiveTab }) {
             <span className="user-name">{displayName}</span>
             <span className="user-role">{roleDisplay}</span>
           </div>
-          <button className="logout-btn-sidebar" onClick={handleLogout} title="Log out">
+          <button 
+            className="logout-btn-sidebar" 
+            title="Log out"
+            onClick={handleLogout}
+          >
             <Icons.Logout />
           </button>
         </div>

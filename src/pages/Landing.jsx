@@ -93,6 +93,58 @@ export default function Landing() {
         </div>
       </section>
 
+      <section className="section section-darker" id="why-pitchtank" aria-label="Why choose PitchTank">
+        <div className="section-container">
+          <div className="section-header">
+            <span className="section-label">THE PITCHTANK ADVANTAGE</span>
+            <h2 className="section-title">Why founders trust us</h2>
+          </div>
+
+          <div className="features-grid" style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '32px',
+            marginTop: '40px'
+          }}>
+            <div className="feature-card" style={{
+              background: 'rgba(0, 0, 0, 0.03)',
+              border: '1px solid rgba(0, 0, 0, 0.08)',
+              borderRadius: '24px',
+              padding: '32px',
+              transition: 'transform 0.3s ease'
+            }}>
+              <div className="feature-icon" style={{ fontSize: '32px', marginBottom: '20px' }}>⚡</div>
+              <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#111827', marginBottom: '12px' }}>Hyper-Speed Matching</h3>
+              <p style={{ color: '#4b5563', lineHeight: '1.6' }}>Skip the endless networking. Our algorithms match you with relevant investors in less than 24 hours based on your AI score and sector.</p>
+            </div>
+
+            <div className="feature-card" style={{
+              background: 'rgba(0, 0, 0, 0.03)',
+              border: '1px solid rgba(0, 0, 0, 0.08)',
+              borderRadius: '24px',
+              padding: '32px',
+              transition: 'transform 0.3s ease'
+            }}>
+              <div className="feature-icon" style={{ fontSize: '32px', marginBottom: '20px' }}>🤖</div>
+              <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#111827', marginBottom: '12px' }}>Transparent AI Scoring</h3>
+              <p style={{ color: '#4b5563', lineHeight: '1.6' }}>No more "ghosting". Get a raw, objective score on your deck so you know exactly what to improve before talking to a human investor.</p>
+            </div>
+
+            <div className="feature-card" style={{
+              background: 'rgba(0, 0, 0, 0.03)',
+              border: '1px solid rgba(0, 0, 0, 0.08)',
+              borderRadius: '24px',
+              padding: '32px',
+              transition: 'transform 0.3s ease'
+            }}>
+              <div className="feature-icon" style={{ fontSize: '32px', marginBottom: '20px' }}>🛡️</div>
+              <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#111827', marginBottom: '12px' }}>IP Protection</h3>
+              <p style={{ color: '#4b5563', lineHeight: '1.6' }}>Your work is your treasure. Every deck viewed by an investor is dynamically watermarked with their identity to prevent unauthorized sharing.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="section section-darker" id="startups" aria-label="Trending startups">
         <div className="section-container">
           <div className="section-header">

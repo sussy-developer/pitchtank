@@ -17,8 +17,8 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #0a0b10;
-  color: #ffffff;
+  background: #f9fafb;
+  color: #111827;
   overflow-x: hidden;
 }
 
@@ -46,18 +46,18 @@ ul, ol {
 
 /* ===== GLOBAL VARIABLES ===== */
 :root {
-  --color-bg-primary: #0a0b10;
-  --color-bg-secondary: #0d0e15;
-  --color-bg-nav: rgba(10, 11, 16, 0.7);
+  --color-bg-primary: #f9fafb;
+  --color-bg-secondary: #111827;
+  --color-bg-nav: rgba(249, 250, 251, 0.7);
   --color-primary: #3B82F6;
   --color-primary-hover: #2563EB;
   --color-primary-glow: rgba(59, 130, 246, 0.35);
   --color-accent-cyan: rgba(56, 189, 248, 0.15);
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #9ca3af;
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
   --color-text-muted: #6b7280;
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-hover: rgba(255, 255, 255, 0.18);
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-hover: rgba(0, 0, 0, 0.18);
   --color-badge-bg: rgba(59, 130, 246, 0.12);
   --color-badge-border: rgba(59, 130, 246, 0.3);
 
