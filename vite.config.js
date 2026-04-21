@@ -10,6 +10,7 @@ export default defineConfig({
         target: 'https://ventures01.app.n8n.cloud',
         changeOrigin: true,
         secure: true,
+        base : '/pitchtank/'
       }
     }
   }
