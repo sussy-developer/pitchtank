@@ -336,6 +336,7 @@ export default function Dashboard() {
                 <div className="submit-modal-body">
                   <AIScoreAnimation
                     fileName={pdfFile?.name || 'pitch-deck.pdf'}
+                    pdfFile={pdfFile}
                     onComplete={closeModal}
                     onScoresGenerated={handleScoresGenerated}
                   />

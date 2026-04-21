@@ -7,6 +7,11 @@ export default defineConfig({
   base: '/',
   server: {
     proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
       '/webhook': {
         target: 'https://ventures01.app.n8n.cloud',
         changeOrigin: true,

@@ -2,105 +2,132 @@ import { useState, useEffect, useRef } from 'react';
 import '../styles/ai-score.css';
 
 const criteriaList = [
-  { label: 'Market Fit', icon: '🎯' },
-  { label: 'Innovation', icon: '💡' },
-  { label: 'Scalability', icon: '📈' },
-  { label: 'Revenue Model', icon: '💰' },
-  { label: 'Competition', icon: '⚔️' },
-  { label: 'Team Strength', icon: '👥' },
+  { label: 'Market Fit',     icon: '🎯' },
+  { label: 'Innovation',     icon: '💡' },
+  { label: 'Scalability',    icon: '📈' },
+  { label: 'Revenue Model',  icon: '💰' },
+  { label: 'Competition',    icon: '⚔️' },
+  { label: 'Team Strength',  icon: '👥' },
   { label: 'Execution Risk', icon: '⚡' },
-  { label: 'Traction', icon: '🚀' },
+  { label: 'Traction',       icon: '🚀' },
 ];
-
-function randomScore(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 function AnimatedNumber({ target, duration = 1200 }) {
   const [current, setCurrent] = useState(0);
-  const ref = useRef(null);
+  const rafRef = useRef(null);
 
   useEffect(() => {
-    let start = 0;
     const startTime = performance.now();
-    
     const animate = (now) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      // Ease out cubic
+      const progress = Math.min((now - startTime) / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
       setCurrent(Math.floor(eased * target));
-      
-      if (progress < 1) {
-        ref.current = requestAnimationFrame(animate);
-      }
+      if (progress < 1) rafRef.current = requestAnimationFrame(animate);
     };
-    
-    ref.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(ref.current);
+    rafRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafRef.current);
   }, [target, duration]);
 
   return <span>{current}</span>;
 }
 
-export default function AIScoreAnimation({ fileName, onComplete, onScoresGenerated }) {
-  const [phase, setPhase] = useState('scanning'); // scanning → analyzing → scores → result
+// Stable fallback scores derived from filename (used when API is unreachable)
+function generateFallback(fileName) {
+  let hash = 0;
+  for (let i = 0; i < fileName.length; i++) {
+    hash = ((hash << 5) - hash) + fileName.charCodeAt(i);
+    hash |= 0;
+  }
+  const seed = Math.abs(hash);
+  const seeded = (s, i, min, max) => {
+    const x = Math.sin(s + i + 1) * 10000;
+    return Math.floor((x - Math.floor(x)) * (max - min + 1)) + min;
+  };
+  const scores = criteriaList.map((c, idx) => ({
+    ...c,
+    score: seeded(seed, idx, 60, 88),
+  }));
+  const overall = Math.round(scores.reduce((s, c) => s + c.score, 0) / scores.length);
+  return { scores, overall };
+}
+
+export default function AIScoreAnimation({ fileName, pdfFile, onComplete, onScoresGenerated }) {
+  const [phase, setPhase] = useState('scanning');
   const [visibleCriteria, setVisibleCriteria] = useState(0);
   const [scores, setScores] = useState([]);
   const [finalScore, setFinalScore] = useState(0);
+  const [apiError, setApiError] = useState(false);
 
   useEffect(() => {
-    // Simple hash function to generate a stable seed from fileName
-    const getHash = (str) => {
-      let hash = 0;
-      for (let i = 0; i < str.length; i++) {
-        hash = ((hash << 5) - hash) + str.charCodeAt(i);
-        hash |= 0;
+    let cancelled = false;
+
+    const fetchFromAPI = async () => {
+      if (!pdfFile) return null;
+      const formData = new FormData();
+      formData.append('file', pdfFile);
+      const res = await fetch('/api/analyze', { method: 'POST', body: formData });
+      if (!res.ok) throw new Error(`API ${res.status}`);
+      return res.json();
+    };
+
+    const run = async () => {
+      // Phase 1 — scanning (already set above)
+      // Start API call immediately in background
+      const apiPromise = fetchFromAPI().catch(() => null);
+
+      // Wait minimum scanning duration
+      await new Promise(r => setTimeout(r, 900));
+      if (cancelled) return;
+      setPhase('analyzing');
+
+      // Wait for API response, minimum 1.5 s more in analyzing phase
+      const [apiResult] = await Promise.all([
+        apiPromise,
+        new Promise(r => setTimeout(r, 1500)),
+      ]);
+      if (cancelled) return;
+
+      let generatedScores, overall;
+      if (apiResult && Array.isArray(apiResult.criteria) && apiResult.criteria.length) {
+        // Use real API scores — attach icons from criteriaList by index
+        generatedScores = apiResult.criteria.map((c, i) => ({
+          label: c.label,
+          icon: criteriaList[i]?.icon ?? '📊',
+          score: Math.max(0, Math.min(100, parseInt(c.score) || 60)),
+        }));
+        overall = Math.max(0, Math.min(100, parseInt(apiResult.overall) || 60));
+        setApiError(false);
+      } else {
+        const fb = generateFallback(fileName || 'pitch.pdf');
+        generatedScores = fb.scores;
+        overall = fb.overall;
+        if (pdfFile) setApiError(true);
       }
-      return Math.abs(hash);
+
+      setScores(generatedScores);
+      setFinalScore(overall);
+      if (onScoresGenerated) {
+        onScoresGenerated({ criteria: generatedScores, overall });
+      }
+
+      setPhase('scores');
+
+      // Wait for all criteria to animate in, then show result
+      await new Promise(r => setTimeout(r, generatedScores.length * 260 + 600));
+      if (cancelled) return;
+      setPhase('result');
     };
 
-    const baseSeed = getHash(fileName || 'pitch-deck.pdf');
-
-    // Pseudo-random generator strictly bound between 60 and 100
-    const seededRandom = (seed, index, min, max) => {
-      const x = Math.sin(seed + index + 1) * 10000;
-      const rand = x - Math.floor(x);
-      return Math.floor(rand * (max - min + 1)) + min;
-    };
-
-    const generated = criteriaList.map((c, idx) => ({
-      ...c,
-      score: seededRandom(baseSeed, idx, 60, 100),
-    }));
-    
-    setScores(generated);
-    const avg = Math.round(generated.reduce((s, c) => s + c.score, 0) / generated.length);
-    setFinalScore(avg);
-
-    // Report scores back to parent
-    if (onScoresGenerated) {
-      onScoresGenerated({ criteria: generated, overall: avg });
-    }
-
-    // Phase timeline
-    const t1 = setTimeout(() => setPhase('analyzing'), 800);
-    const t2 = setTimeout(() => setPhase('scores'), 1600);
-    const t3 = setTimeout(() => setPhase('result'), 4200);
-
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+    run();
+    return () => { cancelled = true; };
   }, []);
 
-  // Reveal criteria one by one
+  // Reveal criteria one-by-one when in scores phase
   useEffect(() => {
     if (phase !== 'scores') return;
     if (visibleCriteria >= scores.length) return;
-
-    const timer = setTimeout(() => {
-      setVisibleCriteria(prev => prev + 1);
-    }, 250);
-
-    return () => clearTimeout(timer);
+    const t = setTimeout(() => setVisibleCriteria(p => p + 1), 260);
+    return () => clearTimeout(t);
   }, [phase, visibleCriteria, scores.length]);
 
   const getScoreColor = (score) => {
@@ -150,6 +177,11 @@ export default function AIScoreAnimation({ fileName, onComplete, onScoresGenerat
             <span className="a-dot" />
             <span className="a-dot" />
           </div>
+          {apiError && (
+            <p style={{ fontSize: '0.75rem', color: '#F59E0B', marginTop: '8px' }}>
+              ⚠️ Could not reach scoring API — using estimated scores
+            </p>
+          )}
         </div>
       )}
 
@@ -230,6 +262,12 @@ export default function AIScoreAnimation({ fileName, onComplete, onScoresGenerat
               </div>
             ))}
           </div>
+
+          {apiError && (
+            <p style={{ fontSize: '0.72rem', color: '#9CA3AF', marginBottom: '8px' }}>
+              Scores estimated — start the AI backend for real analysis
+            </p>
+          )}
 
           <button className="btn-primary result-done-btn" onClick={onComplete}>
             Continue to Dashboard
